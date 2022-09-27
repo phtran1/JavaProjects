@@ -51,7 +51,7 @@ public class TicTacToe implements ActionListener {
         for (int i = 0; i < 9; i++){
             if (e.getSource() == buttons[i]){
                 if (player1_turn){
-                    if (buttons[i].getText() == ""){
+                    if (buttons[i].getText().equals("")){
                         buttons[i].setForeground(new Color(255,0,0));
                         buttons[i].setText("X");
                         player1_turn = false;
@@ -59,7 +59,7 @@ public class TicTacToe implements ActionListener {
                         check();
                     }
                 } else {
-                    if (buttons[i].getText() == "") {
+                    if (buttons[i].getText().equals("")) {
                         buttons[i].setForeground(new Color(0, 0, 255));
                         buttons[i].setText("O");
                         player1_turn = true;
@@ -72,11 +72,11 @@ public class TicTacToe implements ActionListener {
     }
 
     public void firstTurn(){
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e){
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e){
+//            e.printStackTrace();
+//        }
 
         if (random.nextInt(2) == 0){
             player1_turn = true;
@@ -90,137 +90,118 @@ public class TicTacToe implements ActionListener {
 
     public void check(){
     //check X win conditions
-        if(
-                (buttons[0].getText()=="X") &&
-                        (buttons[1].getText()=="X") &&
-                        (buttons[2].getText()=="X")
-        ) {
-            xWins(0,1,2);
+        HashSet<Integer> nums = new HashSet<>();
+        // check row
+        for (int i = 0; i < 9; i+= 3){
+            for (int j = i; j < i + 3; j++){
+                if (buttons[j].getText().equals("X")){
+                    nums.add(j);
+                }
+                if (nums.size() == 3){
+                    xWins(nums);
+                }
+            }
+            nums.clear();
         }
-        if(
-                (buttons[3].getText()=="X") &&
-                        (buttons[4].getText()=="X") &&
-                        (buttons[5].getText()=="X")
-        ) {
-            xWins(3,4,5);
+        // check col
+        for (int i = 0; i < 3; i++){
+            for (int j = i; j < i + 9; j+= 3){
+                if (buttons[j].getText().equals("X")){
+                    nums.add(j);
+                }
+                if (nums.size() == 3){
+                    xWins(nums);
+                }
+            }
+            nums.clear();
         }
-        if(
-                (buttons[6].getText()=="X") &&
-                        (buttons[7].getText()=="X") &&
-                        (buttons[8].getText()=="X")
+
+        // check diag
+
+        if((buttons[0].getText().equals("X")) &&
+                        (buttons[4].getText().equals("X")) &&
+                        (buttons[8].getText().equals("X"))
         ) {
-            xWins(6,7,8);
+            nums.add(0);
+            nums.add(4);
+            nums.add(8);
+            xWins(nums);
         }
-        if(
-                (buttons[0].getText()=="X") &&
-                        (buttons[3].getText()=="X") &&
-                        (buttons[6].getText()=="X")
+        if((buttons[2].getText().equals("X")) &&
+                        (buttons[4].getText().equals("X")) &&
+                        (buttons[6].getText().equals("X"))
         ) {
-            xWins(0,3,6);
+            nums.add(2);
+            nums.add(4);
+            nums.add(6);
+            xWins(nums);
         }
-        if(
-                (buttons[1].getText()=="X") &&
-                        (buttons[4].getText()=="X") &&
-                        (buttons[7].getText()=="X")
-        ) {
-            xWins(1,4,7);
-        }
-        if(
-                (buttons[2].getText()=="X") &&
-                        (buttons[5].getText()=="X") &&
-                        (buttons[8].getText()=="X")
-        ) {
-            xWins(2,5,8);
-        }
-        if(
-                (buttons[0].getText()=="X") &&
-                        (buttons[4].getText()=="X") &&
-                        (buttons[8].getText()=="X")
-        ) {
-            xWins(0,4,8);
-        }
-        if(
-                (buttons[2].getText()=="X") &&
-                        (buttons[4].getText()=="X") &&
-                        (buttons[6].getText()=="X")
-        ) {
-            xWins(2,4,6);
-        }
+
         //check O win conditions
-        if(
-                (buttons[0].getText()=="O") &&
-                        (buttons[1].getText()=="O") &&
-                        (buttons[2].getText()=="O")
-        ) {
-            oWins(0,1,2);
+        // check row
+        for (int i = 0; i < 9; i+= 3){
+            for (int j = i; j < i + 3; j++){
+                if (buttons[j].getText().equals("O")){
+                    nums.add(j);
+                }
+                if (nums.size() == 3){
+                    oWins(nums);
+                }
+            }
+            nums.clear();
         }
-        if(
-                (buttons[3].getText()=="O") &&
-                        (buttons[4].getText()=="O") &&
-                        (buttons[5].getText()=="O")
-        ) {
-            oWins(3,4,5);
+        // check col
+        for (int i = 0; i < 3; i++){
+            for (int j = i; j < i + 9; j+= 3){
+                if (buttons[j].getText().equals("O")){
+                    nums.add(j);
+                }
+                if (nums.size() == 3){
+                    oWins(nums);
+                }
+            }
+            nums.clear();
         }
-        if(
-                (buttons[6].getText()=="O") &&
-                        (buttons[7].getText()=="O") &&
-                        (buttons[8].getText()=="O")
+
+        // check diag
+
+        if((buttons[0].getText().equals("O")) &&
+                (buttons[4].getText().equals("O")) &&
+                (buttons[8].getText().equals("O"))
         ) {
-            oWins(6,7,8);
+            nums.add(0);
+            nums.add(4);
+            nums.add(8);
+            oWins(nums);
         }
-        if(
-                (buttons[0].getText()=="O") &&
-                        (buttons[3].getText()=="O") &&
-                        (buttons[6].getText()=="O")
+        if((buttons[2].getText().equals("O")) &&
+                (buttons[4].getText().equals("O")) &&
+                (buttons[6].getText().equals("O"))
         ) {
-            oWins(0,3,6);
-        }
-        if(
-                (buttons[1].getText()=="O") &&
-                        (buttons[4].getText()=="O") &&
-                        (buttons[7].getText()=="O")
-        ) {
-            oWins(1,4,7);
-        }
-        if(
-                (buttons[2].getText()=="O") &&
-                        (buttons[5].getText()=="O") &&
-                        (buttons[8].getText()=="O")
-        ) {
-            oWins(2,5,8);
-        }
-        if(
-                (buttons[0].getText()=="O") &&
-                        (buttons[4].getText()=="O") &&
-                        (buttons[8].getText()=="O")
-        ) {
-            oWins(0,4,8);
-        }
-        if(
-                (buttons[2].getText()=="O") &&
-                        (buttons[4].getText()=="O") &&
-                        (buttons[6].getText()=="O")
-        ) {
-            oWins(2,4,6);
+            nums.add(2);
+            nums.add(4);
+            nums.add(6);
+            oWins(nums);
         }
     }
 
-    public void xWins(int a,int b,int c) {
-        buttons[a].setBackground(Color.GREEN);
-        buttons[b].setBackground(Color.GREEN);
-        buttons[c].setBackground(Color.GREEN);
+    public void xWins(HashSet<Integer> nums) {
+        for (int n : nums) {
+            buttons[n].setBackground(Color.GREEN);
+        }
 
-        for(int i=0;i<9;i++) {
+        for(int i = 0;i < 9; i++) {
             buttons[i].setEnabled(false);
         }
         textfield.setText("X wins");
     }
-    public void oWins(int a,int b,int c) {
-        buttons[a].setBackground(Color.GREEN);
-        buttons[b].setBackground(Color.GREEN);
-        buttons[c].setBackground(Color.GREEN);
 
-        for(int i=0;i<9;i++) {
+    public void oWins(HashSet<Integer> nums) {
+        for (int n : nums) {
+            buttons[n].setBackground(Color.GREEN);
+        }
+
+        for(int i = 0;i < 9; i++) {
             buttons[i].setEnabled(false);
         }
         textfield.setText("O wins");
