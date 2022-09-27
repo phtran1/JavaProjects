@@ -89,16 +89,20 @@ public class TicTacToe implements ActionListener {
     }
 
     public void check(){
-    //check X win conditions
+        checkWin("X");
+        checkWin("O");
+    }
+
+    public void checkWin(String s){
         HashSet<Integer> nums = new HashSet<>();
         // check row
         for (int i = 0; i < 9; i+= 3){
             for (int j = i; j < i + 3; j++){
-                if (buttons[j].getText().equals("X")){
+                if (buttons[j].getText().equals(s)){
                     nums.add(j);
                 }
                 if (nums.size() == 3){
-                    xWins(nums);
+                    winner(nums, s);
                 }
             }
             nums.clear();
@@ -106,11 +110,11 @@ public class TicTacToe implements ActionListener {
         // check col
         for (int i = 0; i < 3; i++){
             for (int j = i; j < i + 9; j+= 3){
-                if (buttons[j].getText().equals("X")){
+                if (buttons[j].getText().equals(s)){
                     nums.add(j);
                 }
                 if (nums.size() == 3){
-                    xWins(nums);
+                    winner(nums, s);
                 }
             }
             nums.clear();
@@ -118,74 +122,26 @@ public class TicTacToe implements ActionListener {
 
         // check diag
 
-        if((buttons[0].getText().equals("X")) &&
-                        (buttons[4].getText().equals("X")) &&
-                        (buttons[8].getText().equals("X"))
+        if((buttons[0].getText().equals(s)) &&
+                (buttons[4].getText().equals(s)) &&
+                (buttons[8].getText().equals(s))
         ) {
             nums.add(0);
             nums.add(4);
             nums.add(8);
-            xWins(nums);
+            winner(nums, s);
         }
-        if((buttons[2].getText().equals("X")) &&
-                        (buttons[4].getText().equals("X")) &&
-                        (buttons[6].getText().equals("X"))
+        if((buttons[2].getText().equals(s)) &&
+                (buttons[4].getText().equals(s)) &&
+                (buttons[6].getText().equals(s))
         ) {
             nums.add(2);
             nums.add(4);
             nums.add(6);
-            xWins(nums);
-        }
-
-        //check O win conditions
-        // check row
-        for (int i = 0; i < 9; i+= 3){
-            for (int j = i; j < i + 3; j++){
-                if (buttons[j].getText().equals("O")){
-                    nums.add(j);
-                }
-                if (nums.size() == 3){
-                    oWins(nums);
-                }
-            }
-            nums.clear();
-        }
-        // check col
-        for (int i = 0; i < 3; i++){
-            for (int j = i; j < i + 9; j+= 3){
-                if (buttons[j].getText().equals("O")){
-                    nums.add(j);
-                }
-                if (nums.size() == 3){
-                    oWins(nums);
-                }
-            }
-            nums.clear();
-        }
-
-        // check diag
-
-        if((buttons[0].getText().equals("O")) &&
-                (buttons[4].getText().equals("O")) &&
-                (buttons[8].getText().equals("O"))
-        ) {
-            nums.add(0);
-            nums.add(4);
-            nums.add(8);
-            oWins(nums);
-        }
-        if((buttons[2].getText().equals("O")) &&
-                (buttons[4].getText().equals("O")) &&
-                (buttons[6].getText().equals("O"))
-        ) {
-            nums.add(2);
-            nums.add(4);
-            nums.add(6);
-            oWins(nums);
-        }
+            winner(nums, s);        }
     }
 
-    public void xWins(HashSet<Integer> nums) {
+    public void winner(HashSet<Integer> nums, String s) {
         for (int n : nums) {
             buttons[n].setBackground(Color.GREEN);
         }
@@ -193,18 +149,7 @@ public class TicTacToe implements ActionListener {
         for(int i = 0;i < 9; i++) {
             buttons[i].setEnabled(false);
         }
-        textfield.setText("X wins");
-    }
-
-    public void oWins(HashSet<Integer> nums) {
-        for (int n : nums) {
-            buttons[n].setBackground(Color.GREEN);
-        }
-
-        for(int i = 0;i < 9; i++) {
-            buttons[i].setEnabled(false);
-        }
-        textfield.setText("O wins");
+        textfield.setText(s + " wins");
     }
 
 }
